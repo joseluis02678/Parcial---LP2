@@ -34,6 +34,6 @@ La librería incluye las siguientes funciones estadísticas:
 Se recomienda usar un entorno virtual. Para instalar la librería localmente:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <nombre_del_proyecto>
+git clone https://github.com/joseluis02678/Parcial---LP2.git
+cd Parcial---LP2
 pip install -e .
