@@ -21,25 +21,26 @@ El objetivo principal es aplicar los conceptos de clases, herencia y polimorfism
 
 ## Estructura del proyecto
 
+```text
 Parcial---LP2/
 │
 ├── estadística_lib/
-│ ├── estadistica/
-│ │ ├── init.py
-│ │ ├── base.py
-│ │ ├── cuantitativos.py
-│ │ ├── cualitativos.py
-│ │
-│ ├── otros/
-│ │ └── matriz.py
-│ │
-│ └── tests/
-│ ├── test_cuantitativos.py
-│ └── test_cualitativos.py
+│   ├── estadistica/
+│   │   ├── __init__.py
+│   │   ├── base.py
+│   │   ├── cuantitativos.py
+│   │   ├── cualitativos.py
+│   │
+│   ├── otros/
+│   │   └── matriz.py
+│   │
+│   └── tests/
+│       ├── test_cuantitativos.py
+│       └── test_cualitativos.py
 │
 ├── notebooks/
-│ ├── demo_cuantitativos.ipynb
-│ ├── demo_cualitativos.ipynb
+│   ├── demo_cuantitativos.ipynb
+│   ├── demo_cualitativos.ipynb
 │
 ├── README.md
 └── requirements.txt
