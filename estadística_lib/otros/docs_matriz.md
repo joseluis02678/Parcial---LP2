@@ -1,6 +1,6 @@
-# Documentación de la clase `Matriz`
+## **Documentación de la clase `Matriz`**
 
-## Descripción general
+### **Descripción general**
 La clase `Matriz` permite representar y operar con matrices en Python de manera sencilla.  
 Está diseñada para trabajar con:
 
@@ -12,7 +12,7 @@ Esta implementación **no depende de librerías externas** como `numpy`, por lo 
 
 ---
 
-## Constructor: `__init__(mtr)`
+### **Constructor: `__init__(mtr)`**
 
 Crea una instancia de la clase `Matriz`.
 
@@ -126,3 +126,4 @@ print(m)
 # Salida:
 # [1, 2]
 # [3, 4]
+
