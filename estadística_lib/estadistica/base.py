@@ -67,4 +67,11 @@ class EstadisticaBase:
         minimo = min(self.datos)
         maximo = max(self.datos)
         return maximo - minimo
+        
+    def coeficiente_variacion(self):
+        media = self.media()
+        if media == 0:
+            return float('inf')  # evita división por cero
+        return (self.desviacion_estandar() / media) * 100
+
 
