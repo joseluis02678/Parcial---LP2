@@ -1,4 +1,8 @@
-# Parcial LP2 - Librería de Estadística en Python
+<p align="center">
+  <img src="https://github.com/joseluis02678/Parcial---LP2/blob/main/images/logo.jpg" alt="Logo UNALM" width="180">
+</p>
+
+<h1 align="center">📊 Parcial LP2 - Librería de Estadística en Python</h1>
 
 Este proyecto fue desarrollado como parte del curso **Lenguaje de Programación II**.  
 Consiste en una librería en Python que permite calcular estadísticas básicas para datos **cuantitativos y cualitativos** aplicando los principios de **programación orientada a objetos (POO)**.
@@ -41,7 +45,11 @@ Parcial---LP2/
 ├── notebooks/
 │   ├── demo_cuantitativos.ipynb
 │   ├── demo_cualitativos.ipynb
-|   |── 
+|   |── demo_inferencia.ipynb
+|   |── demo_matrices.ipynb
+│
+├── images/
+│   └── logo.jpg
 │
 ├── README.md
 └── requirements.txt
