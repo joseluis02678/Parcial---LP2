@@ -41,6 +41,7 @@ Parcial---LP2/
 ├── notebooks/
 │   ├── demo_cuantitativos.ipynb
 │   ├── demo_cualitativos.ipynb
+|   |── 
 │
 ├── README.md
 └── requirements.txt
