@@ -1,6 +1,8 @@
 from base import EstadisticaBase
 import numpy as np
 from scipy.special import gamma  # Para factorial/Gamma necesario en chi, t y F
+from scipy import stats
+import math
 
 class DistribucionesMuestrales(EstadisticaBase):
     """
@@ -64,6 +66,48 @@ class DistribucionesMuestrales(EstadisticaBase):
                 (gamma(d1 / 2) * gamma(d2 / 2))) * (d1 / d2) ** (d1 / 2)
         expo = x ** (d1 / 2 - 1) * (1 + (d1 / d2) * x) ** (-(d1 + d2) / 2)
         return coef * expo
+
+from scipy import stats
+import math
+
+class IC(DistribucionesMuestrales):
+    """
+    Clase IC (Intervalos de Confianza)
+    Reutiliza los métodos de EstadisticaBase y DistribucionesMuestrales.
+    """
+
+    def __init__(self, datos):
+        super().__init__(datos)
+
+    def media_t(self, alpha=0.05):
+        """
+        Intervalo de confianza para la media poblacional (σ desconocida)
+        usando la distribución t de Student.
+
+        Fórmula:
+        a = media_muestral - t(1-alpha/2; n-1) * s / sqrt(n)
+        b = media_muestral + t(1-alpha/2; n-1) * s / sqrt(n)
+        """
+        n = self.contar_datos()
+        if n < 2:
+            raise ValueError("Se necesitan al menos 2 observaciones para calcular el IC.")
+
+        media_muestral = self.media()
+        s = self.desviacion_estandar()
+        t_critico = stats.t.ppf(1 - alpha / 2, df=n - 1)
+        error_estandar = s / math.sqrt(n)
+
+        a = media_muestral - t_critico * error_estandar
+        b = media_muestral + t_critico * error_estandar
+
+        return {
+            "a": a,
+            "b": b,
+            "media_muestral": media_muestral,
+            "t_critico": t_critico,
+            "error_estandar": error_estandar,
+            "nivel_confianza": 1 - alpha
+        }
 
 # -------------------- DOCUMENTACIÓN --------------------
 """
