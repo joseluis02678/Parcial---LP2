@@ -15,13 +15,13 @@
 
 <hr style="border: 1px solid #4CAF50; width: 80%; margin: 30px auto;">
 
-> 💡 **Este proyecto fue desarrollado como parte del curso _Lenguaje de Programación II_.**
+>  **Este proyecto fue desarrollado como parte del curso _Lenguaje de Programación II_.**
 >  
 > Permite calcular estadísticas básicas para datos **cuantitativos y cualitativos** aplicando los principios de **Programación Orientada a Objetos (POO)**.  
 > Tiene una finalidad académica, por lo tanto, puede ser usado y modificado con propósitos educativos.
 
 ---
-## 📘 Integrantes del grupo
+##  Integrantes del grupo
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 | Nombres y Apellidos        | Rol                     |
@@ -32,14 +32,14 @@
 
 ---
 
-## 🎯 Objetivo del proyecto
+##  Objetivo del proyecto
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 El objetivo principal es **aplicar los conceptos de clases, herencia y polimorfismo** para crear un paquete que permita realizar análisis estadísticos simples, organizados en módulos fáciles de usar y mantener.
 
 ---
 
-## 🧩 Estructura del proyecto
+##  Estructura del proyecto
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 ```text
