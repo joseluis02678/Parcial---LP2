@@ -61,7 +61,7 @@ class MedidasCuantitativas(EstadisticaBase):
 		normal para un valor x
 		'''
 		mu = self.media()
-		sigma = self, desviacion_estandar()
+		sigma =  self.desviacion_estandar() 
 		parte1 = 1 / (sigma * math.sqrt(2 * math.pi))
 		parte2 = math.exp(-0.5 * ((x - mu) / sigma) ** 2)
 		return parte1 * parte2
