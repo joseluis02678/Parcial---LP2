@@ -1,12 +1,16 @@
 <p align="center">
-  <img src="https://github.com/joseluis02678/Parcial---LP2/blob/main/images/logo.jpg" alt="Logo UNALM" width="180">
+  <img src="https://raw.githubusercontent.com/joseluis02678/Parcial---LP2/main/images/logo.jpg" alt="Logo UNALM" width="180">
 </p>
 
-<h1 align="center">📊 Parcial LP2 - Librería de Estadística en Python</h1>
+<h1 align="center">Parcial LP2 – Librería de Estadística en Python</h1>
 
-Este proyecto fue desarrollado como parte del curso **Lenguaje de Programación II**.  
-Consiste en una librería en Python que permite calcular estadísticas básicas para datos **cuantitativos y cualitativos** aplicando los principios de **programación orientada a objetos (POO)**.
-Tiene una finalidad académica, por lo tanto, puede ser usado y modificado con propósitos educativos.
+<p align="center">
+  <b>Universidad Nacional Agraria La Molina</b><br>
+  <i>Facultad de Economía y Planificación · Departamento de Estadística e Informática</i><br><br>
+  <img src="https://img.shields.io/badge/Python-3.12-blue?logo=python" alt="Python badge">
+  <img src="https://img.shields.io/badge/POO-Programación%20Orientada%20a%20Objetos-green" alt="POO badge">
+  <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-orange" alt="Estado badge">
+</p>
 
 ---
 
