@@ -67,53 +67,6 @@ class DistribucionesMuestrales(EstadisticaBase):
         expo = x ** (d1 / 2 - 1) * (1 + (d1 / d2) * x) ** (-(d1 + d2) / 2)
         return coef * expo
 
-if __name__ == "__main__":
-    # Ejemplo base de datos (heredada de EstadisticaBase)
-    datos = [10, 12, 9, 14, 11, 10, 13, 12, 11, 10]
-    
-    dist = DistribucionesMuestrales(datos)
-
-    print("=== EJEMPLOS DE DISTRIBUCIONES MUESTRALES ===\n")
-
-    # 1️⃣ Distribución de la proporción
-    p = 0.6
-    n = 100
-    x = 0.55
-    print("Distribución de la proporción:")
-    print("Media y desviación estándar:", dist.distribucion_proporcion(p, n))
-    print(f"Densidad en x={x}:", dist.distribucion_proporcion(p, n, x))
-    print("-" * 60)
-
-    # 2️⃣ Distribución de la media muestral
-    n_muestra = 30
-    x_valor = 11.5
-    print("Distribución de la media muestral:")
-    print("Media y desviación estándar:", dist.distribucion_media_muestral(n_muestra))
-    print(f"Densidad en x={x_valor}:", dist.distribucion_media_muestral(n_muestra, x_valor))
-    print("-" * 60)
-
-    # 3️⃣ Distribución Chi-cuadrado
-    x_chi = 5
-    k = 4
-    print("Distribución Chi-cuadrado:")
-    print(f"f(x={x_chi}, k={k}) =", dist.chi_cuadrado(x_chi, k))
-    print("-" * 60)
-
-    # 4️⃣ Distribución t de Student
-    t = 1.5
-    df = 10
-    print("Distribución t de Student:")
-    print(f"f(t={t}, df={df}) =", dist.t_student(t, df))
-    print("-" * 60)
-
-    # 5️⃣ Distribución F de Fisher
-    x_f = 2.5
-    d1 = 5
-    d2 = 10
-    print("Distribución F de Fisher:")
-    print(f"f(x={x_f}, d1={d1}, d2={d2}) =", dist.f_fisher(x_f, d1, d2))
-    print("-" * 60)
-
 from scipy import stats
 import math
 
