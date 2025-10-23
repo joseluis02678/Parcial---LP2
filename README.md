@@ -1,33 +1,46 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/joseluis02678/Parcial---LP2/main/images/logo.jpg" alt="Logo UNALM" width="180">
+  <img src="https://raw.githubusercontent.com/joseluis02678/Parcial---LP2/main/images/logo.jpg" alt="Logo UNALM" width="160">
 </p>
 
-<h1 align="center">Parcial LP2 – Librería de Estadística en Python</h1>
+<div align="center" style="background:#f9f9f9; border-radius:15px; padding:20px; box-shadow:0px 0px 10px #ccc;">
+  <h1>Parcial LP2 – Librería de Estadística en Python</h1>
+  <p><b>Universidad Nacional Agraria La Molina</b><br>
+  <i>Facultad de Economía y Planificación · Departamento de Estadística e Informática</i></p>
+  <p>
+    <img src="https://img.shields.io/badge/Python-3.12-blue?logo=python">
+    <img src="https://img.shields.io/badge/POO-Programación%20Orientada%20a%20Objetos-green">
+    <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-orange">
+  </p>
+</div>
 
-<p align="center">
-  <b>Universidad Nacional Agraria La Molina</b><br>
-  <i>Facultad de Economía y Planificación · Departamento de Estadística e Informática</i><br><br>
-  <img src="https://img.shields.io/badge/Python-3.12-blue?logo=python" alt="Python badge">
-  <img src="https://img.shields.io/badge/POO-Programación%20Orientada%20a%20Objetos-green" alt="POO badge">
-  <img src="https://img.shields.io/badge/Estado-En%20Desarrollo-orange" alt="Estado badge">
-</p>
+<hr style="border: 1px solid #4CAF50; width: 80%; margin: 30px auto;">
+
+> 💡 **Este proyecto fue desarrollado como parte del curso _Lenguaje de Programación II_.**
+>  
+> Permite calcular estadísticas básicas para datos **cuantitativos y cualitativos** aplicando los principios de **Programación Orientada a Objetos (POO)**.  
+> Tiene una finalidad académica, por lo tanto, puede ser usado y modificado con propósitos educativos.
+
+---
+## 📘 Integrantes del grupo
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
+
+| Nombres y Apellidos        | Rol                     |
+|----------------------------|--------------------------|
+| Jose Luis Garay Ramos      | Desarrollador principal |
+| Omar Sebastián Castillo    | Tester / Colaborador    |
+| Ayrton Sánchez Gómez       | Documentación y soporte |
 
 ---
 
-## Integrantes del grupo
-### Nombres y apellidos:
-- Jose Luis Garay Ramos	
-- Omar Sebastian Castillo	
-- Ayrton Sanchez Gómez	
+## 🎯 Objetivo del proyecto
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
-
-## Objetivo del proyecto
-
-El objetivo principal es aplicar los conceptos de clases, herencia y polimorfismo para crear un paquete que permita realizar análisis estadísticos simples, organizados en módulos fáciles de usar y mantener.
+El objetivo principal es **aplicar los conceptos de clases, herencia y polimorfismo** para crear un paquete que permita realizar análisis estadísticos simples, organizados en módulos fáciles de usar y mantener.
 
 ---
 
-## Estructura del proyecto
+## 🧩 Estructura del proyecto
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 ```text
 Parcial---LP2/
