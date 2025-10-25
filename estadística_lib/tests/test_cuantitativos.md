@@ -1,7 +1,3 @@
-Ejemplo de análisis con niveles de **hemoglobina** para verificar cálculos de estadística descriptiva, percentiles y distribuciones.
-
----
-
 ##  Código de prueba
 
 ```python
