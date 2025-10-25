@@ -1,38 +1,30 @@
-```python
-import pandas as pd
+Ejemplo de análisis con niveles de **hemoglobina** para verificar cálculos de estadística descriptiva, percentiles y distribuciones.
 
-# Cargar datos
-data = pd.read_csv("TelcoCustomerChurn.csv")
+---
 
-# Ver columnas disponibles
-print(data.columns)
-```
-![Salida 1](../../images/Salida%201%20-%20Base_files.jpg)
+##  Código de prueba
 
 ```python
-import pandas as pd
-from base import EstadisticaBase  # importar tu clase
+from base import EstadisticaBase
+from cuantitativos import MedidasCuantitativas
+import numpy as np
 
-# 1. Cargar el dataset
-data = pd.read_csv("TelcoCustomerChurn.csv")
+# Datos de niveles de hemoglobina
+hemoglobina = [13.2, 14.5, 12.8, 15.1, 11.9, 13.7, 14.2, 
+               12.3, 13.9, 15.4, 14.8, 13.1, 12.6, 14.0, 13.4]
 
-# 2. Seleccionar una variable cuantitativa (por ejemplo MonthlyCharges)
-variable = data["MonthlyCharges"].dropna()  # eliminar posibles nulos
+hemo = MedidasCuantitativas(hemoglobina)
 
-# 3. Crear el objeto EstadisticaBase
-base_telco = EstadisticaBase(variable)
+print("Resumen estadístico:")
+for k, v in hemo.resumen_estadistico().items():
+    print(f"{k}: {v}")
 
-# 4. Calcular estadísticas descriptivas
-print("Cantidad de datos:", base_telco.contar_datos())
-print("Suma:", base_telco.suma())
-print("Media:", base_telco.media())
-print("Mediana:", base_telco.mediana())
-print("Moda:", base_telco.moda())
-print("Varianza:", base_telco.varianza())
-print("Desviación estándar:", base_telco.desviacion_estandar())
-print("Rango:", base_telco.rango())
-print("Coeficiente de variación:", base_telco.coeficiente_variacion(), "%")
-```
-![Salida 2](../../images/Salida%202%20-%20Base_files.jpg)
+print("\nCuartiles:", hemo.cuartiles())
+print("Percentil 10:", hemo.percentil(10))
+print("Percentil 25:", hemo.percentil(25))
+print("Percentil 50:", hemo.percentil(50))
+print("Percentil 75:", hemo.percentil(75))
+print("Percentil 90:", hemo.percentil(90))
 
+![Salida 1](../../images/cuantitativos_test.jpg)
 
