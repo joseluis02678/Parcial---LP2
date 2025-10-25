@@ -42,17 +42,19 @@ class EstadisticaBase:
         datos_ordenados = sorted(self.datos)
         mitad = n // 2
 
-        # <-- LÓGICA FALTANTE AÑADIDA
+        ### <-- LÓGICA AÑADIDA
         if n % 2 == 0:
+            # Si es par, promedio de los dos centrales
             return (datos_ordenados[mitad - 1] + datos_ordenados[mitad]) / 2
         else:
+            # Si es impar, el valor central
             return datos_ordenados[mitad]
 
     def moda(self):
         """Calcula la moda sin usar librerías externas."""
         n = self.contar_datos()
         if n == 0:
-            return [] # Una lista vacía es una respuesta adecuada
+            return [] # Lista vacía, no hay moda
         
         frecuencias = {}
         for valor in self.datos:
@@ -60,19 +62,18 @@ class EstadisticaBase:
         
         max_freq = max(frecuencias.values())
         
-        # <-- LÓGICA FALTANTE AÑADIDA
+        ### <-- LÓGICA AÑADIDA
+        # Si la frecuencia máxima es 1, todos son únicos, no hay moda
+        if max_freq == 1 and n > 1:
+             return []
+
         modas = [k for k, v in frecuencias.items() if v == max_freq]
         
-        # Si todos los valores son únicos, no hay moda
-        if len(modas) == n:
-             return []
-             
         return modas if len(modas) > 1 else modas[0]
 
     def varianza(self):
         """Calcula la varianza muestral sin usar numpy.mean ni statistics."""
         n = self.contar_datos()
-        # La varianza muestral no está definida para n < 2
         if n < 2:
             return float('nan')
             
@@ -80,17 +81,19 @@ class EstadisticaBase:
         suma_cuadrados = 0
         for valor in self.datos:
             suma_cuadrados += (valor - media) ** 2
-        # Esta línea ahora es segura
         return suma_cuadrados / (n - 1)
 
     def desviacion_estandar(self):
         """Calcula la desviación estándar usando sqrt de numpy."""
-        return np.sqrt(self.varianza())
+        var = self.varianza()
+        # Si la varianza es nan, la raíz también lo es.
+        return np.sqrt(var)
 
     def rango(self):
         """Calcula el rango de los datos."""
-        # <-- ¡VERIFICACIÓN AÑADIDA!
-        if self.contar_datos() == 0:
+        ### <-- PROTECCIÓN AÑADIDA
+        n = self.contar_datos()
+        if n == 0:
             return float('nan')
             
         minimo = min(self.datos)
@@ -102,12 +105,14 @@ class EstadisticaBase:
         media = self.media()
         desv_est = self.desviacion_estandar()
 
-        # Casos especiales
+        # Si la media o desv es 'nan' (por lista vacía o n<2), el CV es 'nan'
         if np.isnan(media) or np.isnan(desv_est):
              return float('nan')
+        
+        # Si la media es 0
         if media == 0:
-            # Si la media es 0 y la desviación también es 0, CV es 0.
-            # Si la media es 0 pero hay desviación, CV es infinito.
+            # Si media y desv son 0 (ej: datos=[0,0,0]), CV es 0
+            # Si media es 0 pero hay desv (ej: datos=[-1, 0, 1]), CV es infinito
             return 0.0 if desv_est == 0 else float('inf')
             
         return (desv_est / media) * 100
