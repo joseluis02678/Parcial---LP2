@@ -1,61 +1,70 @@
+import numpy as np
 import pandas as pd
+from .base import EstadisticaBase
 
-class VariableCualitativa:
-    """Clase base para variables cualitativas"""
+class EstadisticaCualitativa(EstadisticaBase):
+    """
+    Clase para análisis estadístico de datos cualitativos (categóricos).
+    Hereda de EstadisticaBase e implementa métodos específicos.
+    """
+
     def __init__(self, datos):
-        self.datos = datos
-        self.n = len(datos)
-        self.series = pd.Series(datos)
-    
-    def analizar(self):
-        raise NotImplementedError("Este método debe implementarse en las subclases.")
-    
-    def mostrar(self):
-        raise NotImplementedError("Este método debe implementarse en las subclases.")
+        """
+        Constructor que recibe una lista de categorías.
+        Convierte los datos en un array de tipo string.
+        """
+        super().__init__(datos)
+        self.datos = np.array(datos, dtype=str)
 
+    # --- POLIMORFISMO ---
+    def moda(self):
+        """
+        Sobrescribe el método moda() de la clase base para datos cualitativos.
+        Devuelve la categoría más frecuente.
+        """
+        if len(self.datos) == 0:
+            return None
 
-class FrecuenciaCualitativa(VariableCualitativa):
-    """Calcula frecuencias absolutas y relativas"""
-    def analizar(self):
-        self.frecuencia_abs = self.series.value_counts().to_dict()
-        self.frecuencia_rel = (self.series.value_counts(normalize=True) * 100).round(2).to_dict()
-        return {
-            "Frecuencia absoluta": self.frecuencia_abs,
-            "Frecuencia relativa (%)": self.frecuencia_rel
-        }
-    
-    def mostrar(self):
-        print("Frecuencias cualitativas:")
-        for categoria in self.frecuencia_abs:
-            print(f"{categoria}: abs={self.frecuencia_abs[categoria]}, rel={self.frecuencia_rel[categoria]}%")
-        print(f"Total de datos: {self.n}")
+        frecuencias = {}
+        for valor in self.datos:
+            frecuencias[valor] = frecuencias.get(valor, 0) + 1
 
+        max_freq = max(frecuencias.values())
+        modas = [k for k, v in frecuencias.items() if v == max_freq]
 
-class ModaCualitativa(VariableCualitativa):
-    """Obtiene la moda (categoría más frecuente)"""
-    def analizar(self):
-        conteo = self.series.value_counts()
-        max_freq = conteo.max()
-        modas = conteo[conteo == max_freq].index.tolist()
-        self.moda = modas
-        return {"Moda": modas, "Frecuencia": max_freq}
-    
-    def mostrar(self):
-        print(f"Moda(s): {', '.join(self.moda)}")
+        return modas if len(modas) > 1 else modas[0]
 
+    def tabla_frecuencias(self):
+        """
+        Genera una tabla de frecuencias (absoluta, relativa y acumulada).
+        Retorna un DataFrame de pandas.
+        """
+        if len(self.datos) == 0:
+            return pd.DataFrame(columns=["Categoría", "Frecuencia", "Frecuencia Relativa", "Frecuencia Acumulada"])
 
-class ComparadorCualitativo(VariableCualitativa):
-    """Compara dos variables cualitativas (por ejemplo, dos encuestas)"""
-    def __init__(self, datos1, datos2):
-        super().__init__(datos1)
-        self.datos2 = datos2
-        self.series2 = pd.Series(datos2)
-    
-    def analizar(self):
-        tabla = pd.crosstab(self.series, self.series2)
-        self.tabla = tabla
+        # Frecuencia absoluta
+        categorias, counts = np.unique(self.datos, return_counts=True)
+
+        # Frecuencia relativa
+        total = len(self.datos)
+        freq_relativa = counts / total
+
+        # Frecuencia acumulada
+        freq_acumulada = np.cumsum(freq_relativa)
+
+        tabla = pd.DataFrame({
+            "Categoría": categorias,
+            "Frecuencia": counts,
+            "Frecuencia Relativa": np.round(freq_relativa, 3),
+            "Frecuencia Acumulada": np.round(freq_acumulada, 3)
+        })
+
         return tabla
-    
-    def mostrar(self):
-        print("Tabla de contingencia entre ambas variables:")
-        print(self.tabla)
+
+    def resumen(self):
+        """
+        Devuelve un resumen textual de las frecuencias.
+        """
+        tabla = self.tabla_frecuencias()
+        moda = self.moda()
+        return f"Moda: {moda}\n\nTabla de Frecuencias:\n{tabla}"
