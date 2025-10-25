@@ -19,3 +19,16 @@ def test_tabla_frecuencias():
     assert isinstance(tabla, pd.DataFrame)
     assert "Frecuencia Relativa" in tabla.columns
     assert tabla["Frecuencia"].sum() == 5
+
+-----------
+
+from estadistica_lib.estadistica.cualitativos import ResumenCualitativo
+
+# Ejemplo de datos cualitativos
+datos = ["TV", "Internet", "TV", "Radio", "Internet", "TV", "Radio", "Internet"]
+
+# Crear el objeto
+resumen = ResumenCualitativo(datos, "Medio preferido")
+
+# Mostrar el resumen
+print(resumen.resumen())

@@ -68,3 +68,25 @@ class EstadisticaCualitativa(EstadisticaBase):
         tabla = self.tabla_frecuencias()
         moda = self.moda()
         return f"Moda: {moda}\n\nTabla de Frecuencias:\n{tabla}"
+
+-----------
+
+class ResumenCualitativo(EstadisticaCualitativa):
+    def __init__(self, datos, nombre_variable="Variable cualitativa"):
+        # Heredamos el comportamiento de EstadisticaCualitativa
+        super().__init__(datos)
+        self.nombre_variable = nombre_variable
+
+    def resumen(self):
+        # Calcula la tabla de frecuencias y la moda
+        tabla = self.tabla_frecuencias()
+        moda = self.moda()
+        total = self.contar_datos()
+
+        # Construimos un pequeño informe de texto
+        resumen = f"Resumen de {self.nombre_variable}\n"
+        resumen += f"Total de datos: {total}\n"
+        resumen += f"Moda: {moda}\n\n"
+        resumen += "Tabla de frecuencias:\n"
+        resumen += str(tabla)
+        return resumen
