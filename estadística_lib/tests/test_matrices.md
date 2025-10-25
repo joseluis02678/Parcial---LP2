@@ -1,0 +1,76 @@
+##  Código de prueba
+
+```python
+from op_matriz import MedidasCuantitativas
+
+# Matrices ejemplos
+
+A = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+B = [
+    [9, 8, 7],
+    [6, 5, 4],
+    [3, 2, 1]
+]
+
+C = [
+    [2, 4],
+    [6, 8]
+]
+
+D = [
+    [1, 3],
+    [5, 7]
+]
+
+A1 = matriz(A)
+B1 = matriz(B)
+C1 = matriz(C)
+D1 = matriz(D)
+Z1 = matriz(Z)
+
+```
+
+```python
+
+# Suma de matrices
+
+A1 + B1
+
+```
+
+![Salida 1](/images/suma_matriz.jpg)
+
+```python
+
+# Resta de matrices
+
+A1 - B1
+
+```
+
+![Salida 2](/images/resta_matriz.jpg)
+
+```python
+
+# Multiplicacion entre matrices
+
+C1 * D1
+
+```
+
+![Salida 3](/images/multi_matriz.jpg)
+
+```python
+
+# Multiplicacion de una matriz por un escalar
+
+A1 * Z1
+
+```
+
+![Salida 4](/images/multi_escalar_matriz.jpg)
