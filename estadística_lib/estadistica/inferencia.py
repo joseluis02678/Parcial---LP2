@@ -67,9 +67,6 @@ class DistribucionesMuestrales(EstadisticaBase):
         expo = x ** (d1 / 2 - 1) * (1 + (d1 / d2) * x) ** (-(d1 + d2) / 2)
         return coef * expo
 
-from scipy import stats
-import math
-
 class IC(DistribucionesMuestrales):
     """
     Clase IC (Intervalos de Confianza)
@@ -83,10 +80,6 @@ class IC(DistribucionesMuestrales):
         """
         Intervalo de confianza para la media poblacional (σ desconocida)
         usando la distribución t de Student.
-
-        Fórmula:
-        a = media_muestral - t(1-alpha/2; n-1) * s / sqrt(n)
-        b = media_muestral + t(1-alpha/2; n-1) * s / sqrt(n)
         """
         n = self.contar_datos()
         if n < 2:
@@ -110,122 +103,100 @@ class IC(DistribucionesMuestrales):
         }
 
     def media_z(self, sigma_poblacional, alpha=0.05):
-            """
-            Intervalo de confianza para la media poblacional (σ conocida)
-            usando la distribución Z (Normal).
-    
-            Fórmula:
-            a = media_muestral - Z(1-alpha/2) * σ / sqrt(n)
-            b = media_muestral + Z(1-alpha/2) * σ / sqrt(n)
-            """
-            n = self.contar_datos()
-            if n < 1:
-                raise ValueError("Se necesita al menos 1 observación.")
-    
-            media_muestral = self.media()
-            z_critico = stats.norm.ppf(1 - alpha / 2)
-            error_estandar = sigma_poblacional / math.sqrt(n)
-    
-            a = media_muestral - z_critico * error_estandar
-            b = media_muestral + z_critico * error_estandar
-    
-            return {
-                "a": a,
-                "b": b,
-                "media_muestral": media_muestral,
-                "z_critico": z_critico,
-                "error_estandar": error_estandar,
-                "nivel_confianza": 1 - alpha
-            }
-    
+        """
+        Intervalo de confianza para la media poblacional (σ conocida)
+        usando la distribución Z (Normal).
+        """
+        n = self.contar_datos()
+        if n < 1:
+            raise ValueError("Se necesita al menos 1 observación.")
+
+        media_muestral = self.media()
+        z_critico = stats.norm.ppf(1 - alpha / 2)
+        error_estandar = sigma_poblacional / math.sqrt(n)
+
+        a = media_muestral - z_critico * error_estandar
+        b = media_muestral + z_critico * error_estandar
+
+        return {
+            "a": a,
+            "b": b,
+            "media_muestral": media_muestral,
+            "z_critico": z_critico,
+            "error_estandar": error_estandar,
+            "nivel_confianza": 1 - alpha
+        }
+
     def proporcion(self, alpha=0.05):
-            """
-            Intervalo de confianza para la proporción poblacional (usando Z).
-            Asume que los datos son binarios (0 o 1).
-    
-            Fórmula (Intervalo de Wald):
-            p_gorro = media de los datos (conteo de 1s / n)
-            a = p_gorro - Z(1-alpha/2) * sqrt(p_gorro * (1-p_gorro) / n)
-            b = p_gorro + Z(1-alpha/2) * sqrt(p_gorro * (1-p_gorro) / n)
-            """
-            n = self.contar_datos()
-            if n < 1:
-                raise ValueError("Se necesita al menos 1 observación.")
-    
-            # Asumimos que la media de datos binarios (0 y 1) es la proporción
-            p_gorro = self.media()
-    
-            # Verificación de que los datos son binarios
-            if not all(val in [0, 1] for val in self.datos):
-                raise ValueError("Los datos deben ser binarios (0 o 1) para el IC de proporción.")
-            
-            # Condición para la aproximación normal (n*p >= 5 y n*(1-p) >= 5)
-            if n * p_gorro < 5 or n * (1 - p_gorro) < 5:
-                print(f"Advertencia: Muestra pequeña (n*p={round(n*p_gorro, 2)}, n*(1-p)={round(n*(1-p_gorro), 2)}).")
-                print("El intervalo de confianza de Wald puede ser inexacto.")
-    
-            z_critico = stats.norm.ppf(1 - alpha / 2)
-            
-            # Manejo de p_gorro = 0 o 1 para evitar error en sqrt
-            if p_gorro == 0 or p_gorro == 1:
-                 error_estandar = 0
-            else:
-                error_estandar = math.sqrt((p_gorro * (1 - p_gorro)) / n)
-    
-            a = p_gorro - z_critico * error_estandar
-            b = p_gorro + z_critico * error_estandar
-            
-            # Las proporciones no pueden ser < 0 o > 1
-            a = max(0, a)
-            b = min(1, b)
-    
-            return {
-                "a": a,
-                "b": b,
-                "p_gorro": p_gorro,
-                "z_critico": z_critico,
-                "error_estandar": error_estandar,
-                "n": n,
-                "nivel_confianza": 1 - alpha
-            }
-    
-        def varianza_chi2(self, alpha=0.05):
-            """
-            Intervalo de confianza para la varianza poblacional (σ^2)
-            usando la distribución Chi-Cuadrado.
-    
-            Fórmula:
-            a = (n-1) * s^2 / Chi2(1-alpha/2; n-1)
-            b = (n-1) * s^2 / Chi2(alpha/2; n-1)
-            """
-            n = self.contar_datos()
-            if n < 2:
-                raise ValueError("Se necesitan al menos 2 observaciones para calcular el IC.")
-    
-            s_cuadrado = self.varianza()
-            gl = n - 1
-            
-            # Valor crítico superior (deja 1-alpha/2 a la izquierda)
-            chi2_critico_sup = stats.chi2.ppf(1 - alpha / 2, df=gl)
-            # Valor crítico inferior (deja alpha/2 a la izquierda)
-            chi2_critico_inf = stats.chi2.ppf(alpha / 2, df=gl)
-            
-            numerador = gl * s_cuadrado
-    
-            # El IC se invierte: el valor crítico grande (sup) va en el límite inferior (a)
-            a = numerador / chi2_critico_sup
-            # El valor crítico pequeño (inf) va en el límite superior (b)
-            b = numerador / chi2_critico_inf
-    
-            return {
-                "a": a,
-                "b": b,
-                "s_cuadrado_muestral": s_cuadrado,
-                "grados_libertad": gl,
-                "chi2_inf_critico": chi2_critico_inf,
-                "chi2_sup_critico": chi2_critico_sup,
-                "nivel_confianza": 1 - alpha
-            }
+        """
+        Intervalo de confianza para la proporción poblacional (usando Z).
+        Asume que los datos son binarios (0 o 1).
+        """
+        n = self.contar_datos()
+        if n < 1:
+            raise ValueError("Se necesita al menos 1 observación.")
+
+        p_gorro = self.media()
+
+        if not all(val in [0, 1] for val in self.datos):
+            raise ValueError("Los datos deben ser binarios (0 o 1) para el IC de proporción.")
+        
+        if n * p_gorro < 5 or n * (1 - p_gorro) < 5:
+            print(f"Advertencia: Muestra pequeña (n*p={round(n*p_gorro, 2)}, n*(1-p)={round(n*(1-p_gorro), 2)}).")
+            print("El intervalo de confianza de Wald puede ser inexacto.")
+
+        z_critico = stats.norm.ppf(1 - alpha / 2)
+        
+        if p_gorro == 0 or p_gorro == 1:
+            error_estandar = 0
+        else:
+            error_estandar = math.sqrt((p_gorro * (1 - p_gorro)) / n)
+
+        a = p_gorro - z_critico * error_estandar
+        b = p_gorro + z_critico * error_estandar
+
+        a = max(0, a)
+        b = min(1, b)
+
+        return {
+            "a": a,
+            "b": b,
+            "p_gorro": p_gorro,
+            "z_critico": z_critico,
+            "error_estandar": error_estandar,
+            "n": n,
+            "nivel_confianza": 1 - alpha
+        }
+
+    def varianza_chi2(self, alpha=0.05):
+        """
+        Intervalo de confianza para la varianza poblacional (σ^2)
+        usando la distribución Chi-Cuadrado.
+        """
+        n = self.contar_datos()
+        if n < 2:
+            raise ValueError("Se necesitan al menos 2 observaciones para calcular el IC.")
+
+        s_cuadrado = self.varianza()
+        gl = n - 1
+
+        chi2_critico_sup = stats.chi2.ppf(1 - alpha / 2, df=gl)
+        chi2_critico_inf = stats.chi2.ppf(alpha / 2, df=gl)
+
+        numerador = gl * s_cuadrado
+
+        a = numerador / chi2_critico_sup
+        b = numerador / chi2_critico_inf
+
+        return {
+            "a": a,
+            "b": b,
+            "s_cuadrado_muestral": s_cuadrado,
+            "grados_libertad": gl,
+            "chi2_inf_critico": chi2_critico_inf,
+            "chi2_sup_critico": chi2_critico_sup,
+            "nivel_confianza": 1 - alpha
+        }
 
 # -------------------- DOCUMENTACIÓN --------------------
 """
