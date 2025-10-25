@@ -22,5 +22,5 @@ print("Percentil 50:", hemo.percentil(50))
 print("Percentil 75:", hemo.percentil(75))
 print("Percentil 90:", hemo.percentil(90))
 
-![Salida 1](../../images/cuantitativos_test.jpg)
+![Salida 1](../images/cuantitativos_test.jpg)
 
