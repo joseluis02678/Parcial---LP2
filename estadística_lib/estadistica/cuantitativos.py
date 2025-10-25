@@ -1,5 +1,6 @@
 from base import EstadisticaBase
 import numpy as np
+import math
 
 class MedidasCuantitativas(EstadisticaBase):
 	'''
