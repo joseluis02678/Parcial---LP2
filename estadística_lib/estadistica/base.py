@@ -42,7 +42,7 @@ class EstadisticaBase:
         datos_ordenados = sorted(self.datos)
         mitad = n // 2
 
-        ### <-- LÓGICA AÑADIDA
+        # --- LÓGICA FALTANTE AÑADIDA ---
         if n % 2 == 0:
             # Si es par, promedio de los dos centrales
             return (datos_ordenados[mitad - 1] + datos_ordenados[mitad]) / 2
@@ -62,8 +62,8 @@ class EstadisticaBase:
         
         max_freq = max(frecuencias.values())
         
-        ### <-- LÓGICA AÑADIDA
-        # Si la frecuencia máxima es 1, todos son únicos, no hay moda
+        # --- LÓGICA FALTANTE AÑADIDA ---
+        # Si la frecuencia máxima es 1 (y hay más de 1 dato), todos son únicos, no hay moda
         if max_freq == 1 and n > 1:
              return []
 
@@ -91,7 +91,7 @@ class EstadisticaBase:
 
     def rango(self):
         """Calcula el rango de los datos."""
-        ### <-- PROTECCIÓN AÑADIDA
+        # --- PROTECCIÓN FALTANTE AÑADIDA ---
         n = self.contar_datos()
         if n == 0:
             return float('nan')
@@ -105,6 +105,7 @@ class EstadisticaBase:
         media = self.media()
         desv_est = self.desviacion_estandar()
 
+        # --- LÓGICA DE ROBUSTEZ AÑADIDA ---
         # Si la media o desv es 'nan' (por lista vacía o n<2), el CV es 'nan'
         if np.isnan(media) or np.isnan(desv_est):
              return float('nan')
@@ -116,5 +117,4 @@ class EstadisticaBase:
             return 0.0 if desv_est == 0 else float('inf')
             
         return (desv_est / media) * 100
-
 
