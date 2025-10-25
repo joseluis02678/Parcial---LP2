@@ -43,7 +43,7 @@ A1 + B1
 
 ```
 
-![Salida 1](/images/suma_matriz.jpg)
+![Salida 1](/images/suma_matriz.png)
 
 ```python
 
@@ -53,7 +53,7 @@ A1 - B1
 
 ```
 
-![Salida 2](/images/resta_matriz.jpg)
+![Salida 2](/images/resta_matriz.png)
 
 ```python
 
@@ -63,7 +63,7 @@ C1 * D1
 
 ```
 
-![Salida 3](/images/multi_matriz.jpg)
+![Salida 3](/images/multi_matriz.png)
 
 ```python
 
@@ -73,4 +73,4 @@ A1 * Z1
 
 ```
 
-![Salida 4](/images/multi_escalar_matriz.jpg)
+![Salida 4](/images/multi_escalar_matriz.png)
