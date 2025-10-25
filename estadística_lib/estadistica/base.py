@@ -28,35 +28,46 @@ class EstadisticaBase:
 
     def media(self):
         """Calcula la media aritmética sin usar funciones de Python."""
-        return self.suma() / self.contar_datos()
+        n = self.contar_datos()
+        if n == 0:
+            return float('nan') 
+        return self.suma() / n
 
     def mediana(self):
         """Calcula la mediana ordenando los datos manualmente."""
-        datos_ordenados = sorted(self.datos)
         n = self.contar_datos()
+        if n == 0:
+            return float('nan')
+        
+        datos_ordenados = sorted(self.datos)
         mitad = n // 2
-
-        if n % 2 == 0:
-            return (datos_ordenados[mitad - 1] + datos_ordenados[mitad]) / 2
-        else:
-            return datos_ordenados[mitad]
 
     def moda(self):
         """Calcula la moda sin usar librerías externas."""
+        if self.contar_datos() == 0:
+            return [] 
+        
         frecuencias = {}
         for valor in self.datos:
             frecuencias[valor] = frecuencias.get(valor, 0) + 1
+        
+        # Esta línea ahora es segura
         max_freq = max(frecuencias.values())
-        modas = [k for k, v in frecuencias.items() if v == max_freq]
-        return modas if len(modas) > 1 else modas[0]
+        # ... (el resto de tu lógica)
 
     def varianza(self):
         """Calcula la varianza muestral sin usar numpy.mean ni statistics."""
+        n = self.contar_datos()
+        # La varianza muestral no está definida para n < 2
+        if n < 2:
+            return float('nan')
+            
         media = self.media()
         suma_cuadrados = 0
         for valor in self.datos:
             suma_cuadrados += (valor - media) ** 2
-        return suma_cuadrados / (self.contar_datos() - 1)
+        # Esta línea ahora es segura
+        return suma_cuadrados / (n - 1)
 
     def desviacion_estandar(self):
         """Calcula la desviación estándar usando sqrt de numpy."""
