@@ -42,18 +42,32 @@ class EstadisticaBase:
         datos_ordenados = sorted(self.datos)
         mitad = n // 2
 
+        # <-- LÓGICA FALTANTE AÑADIDA
+        if n % 2 == 0:
+            return (datos_ordenados[mitad - 1] + datos_ordenados[mitad]) / 2
+        else:
+            return datos_ordenados[mitad]
+
     def moda(self):
         """Calcula la moda sin usar librerías externas."""
-        if self.contar_datos() == 0:
-            return [] 
+        n = self.contar_datos()
+        if n == 0:
+            return [] # Una lista vacía es una respuesta adecuada
         
         frecuencias = {}
         for valor in self.datos:
             frecuencias[valor] = frecuencias.get(valor, 0) + 1
         
-        # Esta línea ahora es segura
         max_freq = max(frecuencias.values())
-        # ... (el resto de tu lógica)
+        
+        # <-- LÓGICA FALTANTE AÑADIDA
+        modas = [k for k, v in frecuencias.items() if v == max_freq]
+        
+        # Si todos los valores son únicos, no hay moda
+        if len(modas) == n:
+             return []
+             
+        return modas if len(modas) > 1 else modas[0]
 
     def varianza(self):
         """Calcula la varianza muestral sin usar numpy.mean ni statistics."""
@@ -75,14 +89,27 @@ class EstadisticaBase:
 
     def rango(self):
         """Calcula el rango de los datos."""
+        # <-- ¡VERIFICACIÓN AÑADIDA!
+        if self.contar_datos() == 0:
+            return float('nan')
+            
         minimo = min(self.datos)
         maximo = max(self.datos)
         return maximo - minimo
         
     def coeficiente_variacion(self):
+        """Calcula el Coeficiente de Variación de Pearson."""
         media = self.media()
+        desv_est = self.desviacion_estandar()
+
+        # Casos especiales
+        if np.isnan(media) or np.isnan(desv_est):
+             return float('nan')
         if media == 0:
-            return float('inf')  # evita división por cero
-        return (self.desviacion_estandar() / media) * 100
+            # Si la media es 0 y la desviación también es 0, CV es 0.
+            # Si la media es 0 pero hay desviación, CV es infinito.
+            return 0.0 if desv_est == 0 else float('inf')
+            
+        return (desv_est / media) * 100
 
 
