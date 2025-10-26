@@ -1,7 +1,7 @@
 ##  Código de prueba
 
 ```python
-from op_matriz import MedidasCuantitativas
+from op_matriz import matriz
 
 # Matrices ejemplos
 
