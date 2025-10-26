@@ -1,3 +1,4 @@
+```python
 from cualitativos import ResumenCualitativo
 
 # Cargar archivo CSV
