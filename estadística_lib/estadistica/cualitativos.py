@@ -1,61 +1,81 @@
 import pandas as pd
+import numpy as np
+from base import EstadisticaBase  # usa herencia desde base.py
 
-class VariableCualitativa:
-    """Clase base para variables cualitativas"""
-    def __init__(self, datos):
-        self.datos = datos
-        self.n = len(datos)
-        self.series = pd.Series(datos)
-    
-    def analizar(self):
-        raise NotImplementedError("Este método debe implementarse en las subclases.")
-    
-    def mostrar(self):
-        raise NotImplementedError("Este método debe implementarse en las subclases.")
+class ResumenCualitativo(EstadisticaBase):
+    """
+    Clase para analizar variables cualitativas (hereda de EstadisticaBase).
+    Aplica herencia y polimorfismo: redefine moda() para datos no numéricos.
+    """
 
+    def __init__(self, ruta_archivo, columna=None):
+        """
+        Inicializa con un archivo CSV.
+        Si se indica una columna, trabajará sobre ella.
+        """
+        # No usamos super().__init__() aún porque los datos no son numéricos
+        self.data = pd.read_csv("TelcoCustomerChurn.csv")
+        self.columna = columna
 
-class FrecuenciaCualitativa(VariableCualitativa):
-    """Calcula frecuencias absolutas y relativas"""
-    def analizar(self):
-        self.frecuencia_abs = self.series.value_counts().to_dict()
-        self.frecuencia_rel = (self.series.value_counts(normalize=True) * 100).round(2).to_dict()
-        return {
-            "Frecuencia absoluta": self.frecuencia_abs,
-            "Frecuencia relativa (%)": self.frecuencia_rel
-        }
-    
-    def mostrar(self):
-        print("Frecuencias cualitativas:")
-        for categoria in self.frecuencia_abs:
-            print(f"{categoria}: abs={self.frecuencia_abs[categoria]}, rel={self.frecuencia_rel[categoria]}%")
-        print(f"Total de datos: {self.n}")
+        # Si se especifica columna, guardamos sus valores como array
+        if columna is not None:
+            super().__init__(self.data[columna].astype(str).values)
+        else:
+            super().__init__([])
 
+    # Polimorfismo: redefinimos moda() para texto/categorías
+    def moda(self):
+        """
+        Redefine la moda para variables cualitativas.
+        """
+        if self.columna is None:
+            raise ValueError("Debe especificar una columna para calcular la moda.")
 
-class ModaCualitativa(VariableCualitativa):
-    """Obtiene la moda (categoría más frecuente)"""
-    def analizar(self):
-        conteo = self.series.value_counts()
-        max_freq = conteo.max()
-        modas = conteo[conteo == max_freq].index.tolist()
-        self.moda = modas
-        return {"Moda": modas, "Frecuencia": max_freq}
-    
-    def mostrar(self):
-        print(f"Moda(s): {', '.join(self.moda)}")
+        valores = self.data[self.columna].astype(str).values
+        frecuencias = {}
 
+        for valor in valores:
+            frecuencias[valor] = frecuencias.get(valor, 0) + 1
 
-class ComparadorCualitativo(VariableCualitativa):
-    """Compara dos variables cualitativas (por ejemplo, dos encuestas)"""
-    def __init__(self, datos1, datos2):
-        super().__init__(datos1)
-        self.datos2 = datos2
-        self.series2 = pd.Series(datos2)
-    
-    def analizar(self):
-        tabla = pd.crosstab(self.series, self.series2)
-        self.tabla = tabla
+        max_freq = max(frecuencias.values())
+        modas = [k for k, v in frecuencias.items() if v == max_freq]
+
+        return modas if len(modas) > 1 else modas[0]
+
+    def tabla_frecuencias(self):
+        """
+        Genera tabla de frecuencias absolutas, relativas y acumuladas.
+        """
+        if self.columna is None:
+            columnas_cuali = self.data.select_dtypes(exclude=np.number).columns
+            if len(columnas_cuali) == 0:
+                raise ValueError("No se encontraron columnas cualitativas.")
+            self.columna = columnas_cuali[0]
+
+        serie = self.data[self.columna].astype(str)
+        abs_ = serie.value_counts()
+        rel_ = serie.value_counts(normalize=True).round(3)
+        acu_ = abs_.cumsum()
+
+        tabla = pd.DataFrame({
+            "Categoría": abs_.index,
+            "Frecuencia_Absoluta": abs_.values,
+            "Frecuencia_Relativa": rel_.values,
+            "Frecuencia_Acumulada": acu_.values
+        })
         return tabla
-    
-    def mostrar(self):
-        print("Tabla de contingencia entre ambas variables:")
-        print(self.tabla)
+
+    def resumen(self):
+        """
+        Devuelve tabla de frecuencias y resumen textual.
+        """
+        tabla = self.tabla_frecuencias()
+        moda = self.moda()
+
+        resumen_texto = (
+            f"Resumen de la variable '{self.columna}'\n"
+            f"- Total de observaciones: {len(self.data)}\n"
+            f"- Categorías únicas: {self.data[self.columna].nunique()}\n"
+            f"- Moda: {moda}\n"
+        )
+        return tabla, resumen_texto
