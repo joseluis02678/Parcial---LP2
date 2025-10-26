@@ -1,92 +1,76 @@
 import numpy as np
 import pandas as pd
-from .base import EstadisticaBase
+from estadística_lib.estadistica.base import EstadisticaBase
 
-class EstadisticaCualitativa(EstadisticaBase):
+
+class AnalisisCualitativo(EstadisticaBase):
     """
-    Clase para análisis estadístico de datos cualitativos (categóricos).
-    Hereda de EstadisticaBase e implementa métodos específicos.
+    Clase para análisis de variables cualitativas.
+    Permite leer datos desde listas o archivos CSV grandes.
     """
 
     def __init__(self, datos):
-        """
-        Constructor que recibe una lista de categorías.
-        Convierte los datos en un array de tipo string.
-        """
+        # Si se pasa una ruta CSV, cargar los datos desde el archivo
+        if isinstance(datos, str) and datos.endswith(".csv"):
+            df = pd.read_csv(datos)
+            # Toma la primera columna como variable cualitativa
+            datos = df.iloc[:, 0].dropna().tolist()
         super().__init__(datos)
-        self.datos = np.array(datos, dtype=str)
 
-    # --- POLIMORFISMO ---
+    def frecuencias(self):
+        """Genera tabla de frecuencias absoluta, relativa y acumulada."""
+        valores, conteos = np.unique(self.datos, return_counts=True)
+        total = len(self.datos)
+
+        df = pd.DataFrame({
+            "Categoría": valores,
+            "Frecuencia_Absoluta": conteos,
+            "Frecuencia_Relativa": np.round(conteos / total, 3),
+            "Frecuencia_Acumulada": np.cumsum(conteos)
+        })
+        return df
+
     def moda(self):
-        """
-        Sobrescribe el método moda() de la clase base para datos cualitativos.
-        Devuelve la categoría más frecuente.
-        """
-        if len(self.datos) == 0:
-            return None
-
-        frecuencias = {}
-        for valor in self.datos:
-            frecuencias[valor] = frecuencias.get(valor, 0) + 1
-
-        max_freq = max(frecuencias.values())
-        modas = [k for k, v in frecuencias.items() if v == max_freq]
-
+        """Calcula la moda (categoría más frecuente)."""
+        df = self.frecuencias()
+        max_frec = df["Frecuencia_Absoluta"].max()
+        modas = df.loc[df["Frecuencia_Absoluta"] == max_frec, "Categoría"].tolist()
         return modas if len(modas) > 1 else modas[0]
 
-    def tabla_frecuencias(self):
-        """
-        Genera una tabla de frecuencias (absoluta, relativa y acumulada).
-        Retorna un DataFrame de pandas.
-        """
-        if len(self.datos) == 0:
-            return pd.DataFrame(columns=["Categoría", "Frecuencia", "Frecuencia Relativa", "Frecuencia Acumulada"])
 
-        # Frecuencia absoluta
-        categorias, counts = np.unique(self.datos, return_counts=True)
+class ResumenCualitativo(AnalisisCualitativo):
+    """
+    Clase que amplía AnalisisCualitativo para mostrar resumen general.
+    Ejemplo de herencia y polimorfismo.
+    """
 
-        # Frecuencia relativa
-        total = len(self.datos)
-        freq_relativa = counts / total
-
-        # Frecuencia acumulada
-        freq_acumulada = np.cumsum(freq_relativa)
-
-        tabla = pd.DataFrame({
-            "Categoría": categorias,
-            "Frecuencia": counts,
-            "Frecuencia Relativa": np.round(freq_relativa, 3),
-            "Frecuencia Acumulada": np.round(freq_acumulada, 3)
-        })
-
-        return tabla
-
-    def resumen(self):
-        """
-        Devuelve un resumen textual de las frecuencias.
-        """
-        tabla = self.tabla_frecuencias()
-        moda = self.moda()
-        return f"Moda: {moda}\n\nTabla de Frecuencias:\n{tabla}"
-
------------
-
-class ResumenCualitativo(EstadisticaCualitativa):
-    def __init__(self, datos, nombre_variable="Variable cualitativa"):
-        # Heredamos el comportamiento de EstadisticaCualitativa
+    def __init__(self, datos):
         super().__init__(datos)
-        self.nombre_variable = nombre_variable
 
     def resumen(self):
-        # Calcula la tabla de frecuencias y la moda
-        tabla = self.tabla_frecuencias()
-        moda = self.moda()
-        total = self.contar_datos()
+        """Devuelve tabla de frecuencias y resumen textual."""
+        df = self.frecuencias()
+        moda_valor = self.moda()
 
-        # Construimos un pequeño informe de texto
-        resumen = f"Resumen de {self.nombre_variable}\n"
-        resumen += f"Total de datos: {total}\n"
-        resumen += f"Moda: {moda}\n\n"
-        resumen += "Tabla de frecuencias:\n"
-        resumen += str(tabla)
-        return resumen
+        resumen_texto = (
+            f"Total de observaciones: {self.contar_datos()}\n"
+            f"Categorías distintas: {len(df)}\n"
+            f"Moda: {moda_valor}"
+        )
+        return df, resumen_texto
+
+
+# Ejemplo de uso local (puedes probar esto para verificar)
+if __name__ == "__main__":
+    # Ejemplo con lista
+    datos = ["Rojo", "Azul", "Rojo", "Verde", "Azul", "Rojo", "Amarillo"]
+    analisis = ResumenCualitativo(datos)
+    tabla, resumen = analisis.resumen()
+    print(tabla)
+    print("\n" + resumen)
+
+    # Ejemplo con CSV
+    # analisis_csv = ResumenCualitativo("datos_cualitativos.csv")
+    # tabla_csv, resumen_csv = analisis_csv.resumen()
+    # print(tabla_csv)
+    # print("\n" + resumen_csv)
