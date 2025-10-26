@@ -1,34 +1,35 @@
-import pytest
-import pandas as pd
-from estadística_lib.estadistica.cualitativos import EstadisticaCualitativa
+class ResumenCualitativo(EstadisticaBase):
+    def __init__(self, ruta_archivo, columna=None):
+        super().__init__(ruta_archivo)
+        self.columna = columna
 
-def test_moda_simple():
-    datos = ["rojo", "azul", "rojo", "verde"]
-    est = EstadisticaCualitativa(datos)
-    assert est.moda() == "rojo"
+    def resumen(self):
+        df = self.data.copy()
 
-def test_moda_multiple():
-    datos = ["rojo", "azul", "rojo", "azul"]
-    est = EstadisticaCualitativa(datos)
-    assert set(est.moda()) == {"rojo", "azul"}
+        # Si no se especifica columna, elegir automáticamente una no numérica
+        if self.columna is None:
+            cualitativas = df.select_dtypes(exclude="number").columns
+            if len(cualitativas) == 0:
+                raise ValueError("No se encontraron columnas cualitativas en el archivo.")
+            self.columna = cualitativas[0]  # toma la primera
 
-def test_tabla_frecuencias():
-    datos = ["gato", "perro", "gato", "ave", "gato"]
-    est = EstadisticaCualitativa(datos)
-    tabla = est.tabla_frecuencias()
-    assert isinstance(tabla, pd.DataFrame)
-    assert "Frecuencia Relativa" in tabla.columns
-    assert tabla["Frecuencia"].sum() == 5
+        serie = df[self.columna].astype(str)
 
------------
+        frec_abs = serie.value_counts()
+        frec_rel = serie.value_counts(normalize=True).round(2)
+        frec_acu = frec_abs.cumsum()
 
-from estadistica_lib.estadistica.cualitativos import ResumenCualitativo
+        tabla = pd.DataFrame({
+            "Categoría": frec_abs.index,
+            "Frecuencia_Absoluta": frec_abs.values,
+            "Frecuencia_Relativa": frec_rel.values,
+            "Frecuencia_Acumulada": frec_acu.values
+        })
 
-# Ejemplo de datos cualitativos
-datos = ["TV", "Internet", "TV", "Radio", "Internet", "TV", "Radio", "Internet"]
-
-# Crear el objeto
-resumen = ResumenCualitativo(datos, "Medio preferido")
-
-# Mostrar el resumen
-print(resumen.resumen())
+        resumen = (
+            f"Columna analizada: {self.columna}\n"
+            f"Total de observaciones: {len(df)}\n"
+            f"Categorías distintas: {serie.nunique()}\n"
+            f"Moda: {serie.mode()[0]}"
+        )
+        return tabla, resumen
