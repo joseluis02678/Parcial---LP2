@@ -19,4 +19,4 @@ tabla2, resumen2 = analisis2.resumen()
 print(resumen2)
 display(tabla2)
 
-![Resultado del análisis](images/cualitativos_test.png)
+![Salida 1](/images/cualitativos_test.png)
