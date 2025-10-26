@@ -74,3 +74,49 @@ A1 * Z1
 ```
 
 ![Salida 4](/images/multi_escalar_matriz.png)
+
+```python
+
+#Determinante de la matriz A1
+
+det(A1)
+
+```
+![Salida 5](/images/deter1.png)
+
+```python
+
+#Determinante de la matriz B1
+
+det(B1)
+
+```
+![Salida 6](/images/deter1.png)
+
+```python
+
+#Determinante de la matriz C1
+
+det(C1)
+
+```
+![Salida 7](/images/deter2.png)
+
+```python
+
+#Determinante de la matriz D1
+
+det(D1)
+
+```
+![Salida 8](/images/deter2.png)
+
+```python
+
+#Determinante de la matriz Z1
+
+det(Z1)
+
+```
+![Salida 9](/images/deter3.png)
+
