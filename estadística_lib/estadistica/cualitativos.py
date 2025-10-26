@@ -1,76 +1,53 @@
-import numpy as np
 import pandas as pd
+import numpy as np
 from estadística_lib.estadistica.base import EstadisticaBase
 
-
-class AnalisisCualitativo(EstadisticaBase):
+class ResumenCualitativo(EstadisticaBase):
     """
-    Clase para análisis de variables cualitativas.
-    Permite leer datos desde listas o archivos CSV grandes.
-    """
-
-    def __init__(self, datos):
-        # Si se pasa una ruta CSV, cargar los datos desde el archivo
-        if isinstance(datos, str) and datos.endswith(".csv"):
-            df = pd.read_csv(datos)
-            # Toma la primera columna como variable cualitativa
-            datos = df.iloc[:, 0].dropna().tolist()
-        super().__init__(datos)
-
-    def frecuencias(self):
-        """Genera tabla de frecuencias absoluta, relativa y acumulada."""
-        valores, conteos = np.unique(self.datos, return_counts=True)
-        total = len(self.datos)
-
-        df = pd.DataFrame({
-            "Categoría": valores,
-            "Frecuencia_Absoluta": conteos,
-            "Frecuencia_Relativa": np.round(conteos / total, 3),
-            "Frecuencia_Acumulada": np.cumsum(conteos)
-        })
-        return df
-
-    def moda(self):
-        """Calcula la moda (categoría más frecuente)."""
-        df = self.frecuencias()
-        max_frec = df["Frecuencia_Absoluta"].max()
-        modas = df.loc[df["Frecuencia_Absoluta"] == max_frec, "Categoría"].tolist()
-        return modas if len(modas) > 1 else modas[0]
-
-
-class ResumenCualitativo(AnalisisCualitativo):
-    """
-    Clase que amplía AnalisisCualitativo para mostrar resumen general.
-    Ejemplo de herencia y polimorfismo.
+    Clase para el análisis de variables cualitativas.
+    Hereda de EstadisticaBase y aplica conceptos de POO.
     """
 
-    def __init__(self, datos):
-        super().__init__(datos)
+    def __init__(self, ruta_archivo, columna=None):
+        # Herencia: inicializa la parte común (lectura de CSV)
+        super().__init__(ruta_archivo)
+        self.columna = columna
 
     def resumen(self):
-        """Devuelve tabla de frecuencias y resumen textual."""
-        df = self.frecuencias()
-        moda_valor = self.moda()
+        """Genera tabla de frecuencias y moda de una variable cualitativa."""
+        df = self.data.copy()
 
+        # Si no se indica la columna, busca automáticamente la primera cualitativa
+        if self.columna is None:
+            columnas_cuali = df.select_dtypes(exclude=np.number).columns
+            if len(columnas_cuali) == 0:
+                raise ValueError("No se encontraron columnas cualitativas.")
+            self.columna = columnas_cuali[0]
+
+        serie = df[self.columna].astype(str)
+
+        # Cálculo manual de frecuencias
+        frecuencias_abs = serie.value_counts()
+        frecuencias_rel = serie.value_counts(normalize=True).round(3)
+        frecuencias_acu = frecuencias_abs.cumsum()
+
+        # Crear tabla
+        tabla = pd.DataFrame({
+            "Categoría": frecuencias_abs.index,
+            "Frecuencia_Absoluta": frecuencias_abs.values,
+            "Frecuencia_Relativa": frecuencias_rel.values,
+            "Frecuencia_Acumulada": frecuencias_acu.values
+        })
+
+        # Calcular moda
+        moda = serie.mode()[0]
+
+        # Resumen general
         resumen_texto = (
-            f"Total de observaciones: {self.contar_datos()}\n"
-            f"Categorías distintas: {len(df)}\n"
-            f"Moda: {moda_valor}"
+            f"Resumen de la variable cualitativa '{self.columna}'\n"
+            f"- Total de observaciones: {len(serie)}\n"
+            f"- Categorías únicas: {serie.nunique()}\n"
+            f"- Moda: {moda}\n"
         )
-        return df, resumen_texto
 
-
-# Ejemplo de uso local (puedes probar esto para verificar)
-if __name__ == "__main__":
-    # Ejemplo con lista
-    datos = ["Rojo", "Azul", "Rojo", "Verde", "Azul", "Rojo", "Amarillo"]
-    analisis = ResumenCualitativo(datos)
-    tabla, resumen = analisis.resumen()
-    print(tabla)
-    print("\n" + resumen)
-
-    # Ejemplo con CSV
-    # analisis_csv = ResumenCualitativo("datos_cualitativos.csv")
-    # tabla_csv, resumen_csv = analisis_csv.resumen()
-    # print(tabla_csv)
-    # print("\n" + resumen_csv)
+        return tabla, resumen_texto
