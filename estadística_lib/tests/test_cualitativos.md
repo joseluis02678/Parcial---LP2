@@ -31,4 +31,4 @@ analisis2.graficar_pastel()           # (se van retirando los "#" debido a que s
 
 ```
 
-![Salida 1](/images/cualitativos_test.png)
+![imagen cualitativo 1](/images/cualitativos_test.png)
