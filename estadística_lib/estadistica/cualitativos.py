@@ -79,3 +79,37 @@ class ResumenCualitativo(EstadisticaBase):
             f"- Moda: {moda}\n"
         )
         return tabla, resumen_texto
+
+    
+# Funciones para visualizar gráficas de variables cualitativas (CSV Telco)
+
+    def graficar_barras(self):
+        """
+        Muestra un gráfico de barras con las frecuencias absolutas
+        de la variable cualitativa seleccionada.
+        Compatible con el CSV TelcoCustomerChurn.
+        """
+        df = self.data.copy()
+
+        # Si no se especifica columna, elige la primera no numérica
+        if self.columna is None:
+            for col in df.columns:
+                if df[col].dtype == 'object' or df[col].dtype.name == 'category':
+                    self.columna = col
+                    break
+
+        if self.columna not in df.columns:
+            raise ValueError(f"La columna '{self.columna}' no existe en el archivo CSV.")
+
+        # Filtramos la columna elegida
+        serie = df[self.columna].dropna().astype(str)
+        conteo = serie.value_counts()
+
+        print(f"\n📊 Gráfico de barras - {self.columna}")
+        conteo.plot(
+            kind='bar',
+            figsize=(7, 4),
+            title=f"Frecuencias absolutas de {self.columna}",
+            xlabel=self.columna,
+            ylabel='Frecuencia'
+        )
