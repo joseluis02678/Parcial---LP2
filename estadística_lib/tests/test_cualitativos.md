@@ -32,3 +32,7 @@ analisis2.graficar_pastel()           # (se van retirando los "#" debido a que s
 ```
 
 ![imagen cualitativo 1](/images/cualitativos_test.png)
+
+![graficas paymentmethod](/images/barras_pie_paymentmethod.png)
+
+![graficas contract](/images/barras_pie_contract.png)
