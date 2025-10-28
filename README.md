@@ -24,11 +24,11 @@
 ##  Integrantes del grupo
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
-| Nombres y Apellidos        | Rol                     |
-|----------------------------|--------------------------|
-| Jose Luis Garay Ramos      | Desarrollador principal |
-| Omar Sebastián Castillo    | Tester / Colaborador    |
-| Ayrton Sánchez Gómez       | Documentación y soporte |
+|      Nombres y Apellidos       | Nombre de usuario   |
+|--------------------------------|---------------------|
+| Jose Luis Garay Ramos          |   joseluis02678     |
+| Omar Sebastián Castillo Torres |   Sebas20050700     |
+| Ayrton Sánchez Gómez           |   ayrtonsg752294    |
 
 ---
 
