@@ -1,129 +1,167 @@
-## **Documentación de la clase `Matriz`**
+# **Documentación de la clase `matriz`**
 
-### **Descripción general**
-La clase `Matriz` permite representar y operar con matrices en Python de manera sencilla.  
+## **Descripción general**
+La clase `matriz` permite representar y operar con matrices en Python de manera sencilla.  
 Está diseñada para trabajar con:
 
-- Matrices de cualquier tamaño (nxm).  
-- Escalares (representados como matrices 1x1).  
-- Operaciones básicas: suma, resta y multiplicación (escalar o producto matricial).  
+- Matrices de cualquier tamaño (n×m).  
+- Escalares (representados como matrices 1×1).  
+- Operaciones básicas: **suma**, **resta**, **multiplicación** (escalar o producto matricial) y **cálculo del determinante**.  
 
-Esta implementación **no depende de librerías externas** como `numpy`, por lo que es ideal para entender la lógica de operaciones matriciales desde cero.
+Esta implementación **no depende de librerías externas** como `numpy`, por lo que es ideal para comprender la lógica interna de las operaciones matriciales desde cero.
 
 ---
 
-### **Constructor: `__init__(mtr)`**
+## **Constructor: `__init__(mtr)`**
 
-Crea una instancia de la clase `Matriz`.
+Crea una instancia de la clase `matriz`.
 
-**Parámetros:**
-
+### **Parámetros:**
 - `mtr` : `int`, `float`, `list` o `tuple`  
-  - Si se ingresa un número (`int` o `float`), se convierte en una matriz 1x1.  
+  - Si se ingresa un número (`int` o `float`), se convierte en una matriz 1×1.  
   - Si se ingresa una lista o tupla de listas, se interpreta como la matriz completa.  
     - Todas las filas deben tener la misma longitud.  
 
-**Atributos generados:**
-
+### **Atributos generados:**
 - `self.mtr` → lista de listas que representa la matriz.  
-- `self.filas` → número de filas.  
-- `self.columnas` → número de columnas.  
+- `self.fmtr` → número de filas.  
+- `self.cmtr` → número de columnas.  
 
-**Errores posibles:**
-
+### **Errores posibles:**
 - `TypeError` si `mtr` no es un número, lista o tupla.  
 
-**Ejemplos:**
-
+### **Ejemplos:**
 ```python
-m1 = Matriz(5)                  # matriz 1x1 con valor 5
-m2 = Matriz([[1, 2], [3, 4]])   # matriz 2x2
+m1 = matriz(5)                  # matriz 1x1 con valor 5
+m2 = matriz([[1, 2], [3, 4]])   # matriz 2x2
+```
 
-Método: __add__(other)
+---
 
+## Métodos de la clase `matriz`
+
+---
+
+### **Método:** `__add__(other)`
+
+**Descripción:**  
 Suma dos matrices elemento a elemento.
 
-Parámetros:
+**Parámetros:**
+- `other` : `matriz`  
+  Debe tener las mismas dimensiones (filas y columnas) que la matriz original.
 
-other : Matriz
+**Retorna:**  
+Nueva instancia de `matriz` con la suma de los elementos.
 
-Debe tener las mismas dimensiones (filas y columnas) que la matriz original.
+**Errores posibles:**  
+Si las dimensiones no coinciden, retorna el mensaje:  
+`"Operacion no valida. Matrices con diferentes dimesiones"`.
 
-Retorna:
-
-Nueva instancia de Matriz con la suma de los elementos.
-
-Si las dimensiones no coinciden, retorna un mensaje de error: "Operación no válida: matrices de diferentes dimensiones".
-
-Ejemplo:
-
-m1 = Matriz([[1, 2], [3, 4]])
-m2 = Matriz([[5, 6], [7, 8]])
+**Ejemplo:**
+```python
+m1 = matriz([[1, 2], [3, 4]])
+m2 = matriz([[5, 6], [7, 8]])
 m3 = m1 + m2  # Resultado: [[6, 8], [10, 12]]
+```
 
-Método: __sub__(other)
+---
 
+### **Método:** `__sub__(other)`
+
+**Descripción:**  
 Resta dos matrices elemento a elemento.
 
-Parámetros:
+**Parámetros:**
+- `other` : `matriz`  
+  Debe tener las mismas dimensiones que la matriz original.
 
-other : Matriz
+**Retorna:**  
+Nueva instancia de `matriz` con la resta de los elementos.
 
-Debe tener las mismas dimensiones que la matriz original.
+**Errores posibles:**  
+Si las dimensiones no coinciden, retorna el mensaje:  
+`"Operacion no valida. Matrices con diferentes dimesiones"`.
 
-Retorna:
-
-Nueva instancia de Matriz con la resta de los elementos.
-
-Si las dimensiones no coinciden, retorna un mensaje de error: "Operación no válida: matrices de diferentes dimensiones".
-
-Ejemplo:
-
-m1 = Matriz([[5, 6], [7, 8]])
-m2 = Matriz([[1, 2], [3, 4]])
+**Ejemplo:**
+```python
+m1 = matriz([[5, 6], [7, 8]])
+m2 = matriz([[1, 2], [3, 4]])
 m3 = m1 - m2  # Resultado: [[4, 4], [4, 4]]
+```
 
-Método: __mul__(other)
+---
 
+### **Método:** `__mul__(other)`
+
+**Descripción:**  
 Multiplica la matriz por un escalar o realiza el producto matricial.
 
-Casos:
+**Casos posibles:**
 
-Multiplicación por escalar (1x1)
+#### 1. **Multiplicación por escalar (1×1):**
+Si `other` es una matriz `1×1`, cada elemento de la matriz original se multiplica por ese valor.
 
-other es una matriz 1x1 (other.filas == 1 y other.columnas == 1).
-
-Cada elemento de la matriz original se multiplica por el escalar.
-
-m1 = Matriz([[1, 2], [3, 4]])
-scalar = Matriz(2)
+```python
+m1 = matriz([[1, 2], [3, 4]])
+scalar = matriz(2)
 m2 = m1 * scalar  # Resultado: [[2, 4], [6, 8]]
+```
 
+#### **2. Producto matricial clásico:**
 
-Producto matricial
+Si `self.cmtr == other.fmtr`, se realiza el producto entre matrices.
 
-self.columnas debe ser igual a other.filas.
-
-Retorna la matriz resultante del producto matricial clásico.
-
-m1 = Matriz([[1, 2], [3, 4]])
-m2 = Matriz([[5, 6], [7, 8]])
+```python
+m1 = matriz([[1, 2], [3, 4]])
+m2 = matriz([[5, 6], [7, 8]])
 m3 = m1 * m2  # Resultado: [[19, 22], [43, 50]]
+```
 
+#### **3. Dimensiones incompatibles:**
 
-Errores posibles:
+Si las dimensiones no cumplen las condiciones anteriores, retorna:  
+`"Operacion no valida. Matrices no cumplen condiciones"`.
 
-Si las dimensiones no son compatibles, retorna: "Operación no válida: dimensiones no compatibles".
+---
 
-Método: __repr__()
+### **Método:** `deter()`
 
-Devuelve una representación legible de la matriz para imprimirla en consola.
+**Descripción:**  
+Calcula el determinante de una matriz cuadrada mediante **expansión por la fila con más ceros**, lo que mejora la eficiencia del cálculo.
 
-Ejemplo:
+**Funcionamiento:**
+- Si la matriz es `1×1`, el determinante es el único elemento.  
+- Si es de mayor tamaño, se aplica **recursivamente la expansión de cofactores**.  
+- Automáticamente selecciona la **fila con más ceros** para reducir operaciones.
 
-m = Matriz([[1, 2], [3, 4]])
+**Retorna:**  
+Valor numérico del determinante.
+
+**Ejemplo:**
+```python
+m = matriz([[1, 2, 3],
+            [0, 4, 5],
+            [1, 0, 6]])
+
+det = m.deter()  # Resultado: 22
+```
+
+**Errores posibles:**
+Si la matriz no es cuadrada, el método podría generar resultados incorrectos (no se valida en esta versión).
+
+---
+
+### **Método:** `__repr__()`
+
+**Descripción:**  
+Devuelve una representación legible de la matriz al imprimirla en consola.
+
+**Ejemplo:**
+```python
+m = matriz([[1, 2], [3, 4]])
 print(m)
 # Salida:
 # [1, 2]
 # [3, 4]
-
+```
