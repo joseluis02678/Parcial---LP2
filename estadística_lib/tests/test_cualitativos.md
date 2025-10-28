@@ -10,14 +10,26 @@ analisis = ResumenCualitativo(ruta, columna="PaymentMethod")
 # Obtener resumen
 tabla, resumen = analisis.resumen()
 
+print("\n RESUMEN ESTADÍSTICO CUALITATIVO - PAYMENTMETHOD \n")
 print(resumen)
 display(tabla)
+
+#NUEVO: Generar gráficas para la primera variable METHOD
+analisis.graficar_barras()
+analisis.graficas_pastel()
 
 # Probar polimorfismo: otra variable cualitativa (acá se utilizó Contract)
 analisis2 = ResumenCualitativo(ruta, columna="Contract")
 tabla2, resumen2 = analisis2.resumen()
+print("\n RESUMEN ESTADÍSTICO CUALITATIVO - CONTRACT \n")
 print(resumen2)
 display(tabla2)
+
+# NUEVO: Generar gráficos para la segunda variable CONTRACT
+analisis2.graficar_barras()
+analisis2.graficar_pastel()
+
+
 ```
 
 ![Salida 1](/images/cualitativos_test.png)
