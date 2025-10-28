@@ -39,37 +39,59 @@ El objetivo principal es **aplicar los conceptos de clases, herencia y polimorfi
 
 ---
 
-##  Estructura del proyecto
+## Estructura del proyecto
+
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 ```text
-Parcial---LP2/
+estadística_lib/
 │
-├── estadística_lib/
-│   ├── estadistica/
-│   │   ├── __init__.py
-│   │   ├── base.py
-│   │   ├── cuantitativos.py
-│   │   ├── cualitativos.py
+├── estadistica/
+│   ├── .ipynb_checkpoints/
+│   ├── __init__.py
+│   ├── base.py
+│   ├── cualitativos.py
+│   ├── cuantitativos.py
+│   ├── inferencia.py
 │   │
 │   ├── otros/
-│   │   └── matriz.py
+│   │   ├── docs_matriz.md
+│   │   ├── op_matriz.py
 │   │
 │   └── tests/
-│       ├── test_cuantitativos.py
-│       └── test_cualitativos.py
-│
-├── notebooks/
-│   ├── demo_cuantitativos.ipynb
-│   ├── demo_cualitativos.ipynb
-|   |── demo_inferencia.ipynb
-|   |── demo_matrices.ipynb
+│       ├── test_cualitativos.md
+│       ├── test_cuantitativos.md
+│       ├── test_inferencia.md
+│       ├── test_matrices.md
 │
 ├── images/
-│   └── logo.jpg
+│   ├── Salida 1 - Base_files.jpg
+│   ├── Salida 2 - Base_files.jpg
+│   ├── Salida 1 - inferencia.jpg
+│   ├── Salida 2 - inferencia.jpg
+│   ├── Salida 3 - inferencia.jpg
+│   ├── Salida 4 - inferencia.jpg
+│   ├── Salida 5 - inferencia.jpg
+│   ├── Salida 6 - inferencia.jpg
+│   ├── Salida 7 - Inferencia.jpg
+│   ├── barras_pie_contract.png
+│   ├── barras_pie_paymentmethod.png
+│   ├── cualitativos_test.png
+│   ├── deter1.png
+│   ├── deter2.png
+│   ├── deter3.png
+│   ├── logo.jpg
+│   ├── multi_escalar_matriz.png
+│   ├── multi_matriz.png
+│   ├── resta_matriz.png
+│   ├── suma_matriz.png
+│   ├── test_cuanti1.jpg
+│   ├── test_cuanti2.jpg
+│   └── test_cuanti3.jpg
 │
+├── requirements.txt
 ├── README.md
-└── requirements.txt
+└── .gitignore
 
 ## Instalación y uso
 
@@ -88,13 +110,8 @@ Copiar código
 pip install -r requirements.txt
 Ejecutar los ejemplos desde los notebooks:
 
-bash
-Copiar código
-notebooks/demo_cuantitativos.ipynb
-notebooks/demo_cualitativos.ipynb
-
 Pruebas
 Las pruebas se encuentran en la carpeta tests y se pueden ejecutar con el siguiente comando:
-pytest estadística_lib/tests/
+pytest estadística_lib/estadistica/tests/
 
 
