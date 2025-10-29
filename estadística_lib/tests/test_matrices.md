@@ -79,7 +79,7 @@ A1 * Z1
 
 #Determinante de la matriz A1
 
-det(A1)
+A1.deter()
 
 ```
 ![Salida 5](/images/deter1.png)
@@ -88,7 +88,7 @@ det(A1)
 
 #Determinante de la matriz B1
 
-det(B1)
+B1.deter()
 
 ```
 ![Salida 6](/images/deter1.png)
@@ -97,7 +97,7 @@ det(B1)
 
 #Determinante de la matriz C1
 
-det(C1)
+C1.deter()
 
 ```
 ![Salida 7](/images/deter2.png)
@@ -106,7 +106,7 @@ det(C1)
 
 #Determinante de la matriz D1
 
-det(D1)
+D1.deter()
 
 ```
 ![Salida 8](/images/deter2.png)
@@ -115,8 +115,44 @@ det(D1)
 
 #Determinante de la matriz Z1
 
-det(Z1)
+Z1.deter()
 
 ```
 ![Salida 9](/images/deter3.png)
 
+```python
+
+#Transpuesta de la matriz A1
+
+A1.transpuesta()
+
+```
+![Salida 10](/images/transpuesta_matri.jpg)
+
+---
+---
+
+##  Código de prueba de la estadística matricial
+
+```python
+
+from op_matriz import matriz
+from base import EstadisticaBase
+
+F = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+
+F1 = EstadisticaMatriz(F)
+
+```
+
+```python
+
+F1.media_matricial()
+
+```
+
+![Salida 11](/images/media_matricial.jpg)
