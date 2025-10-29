@@ -165,3 +165,44 @@ print(m)
 # [1, 2]
 # [3, 4]
 ```
+
+
+# Documentación de la Clase `EstadisticaMatriz`
+
+## Descripción
+Clase que combina funcionalidades matriciales con cálculos estadísticos básicos. Hereda de dos clases base:
+- `matriz`: para operaciones matriciales
+- `EstadisticaBase`: para cálculos estadísticos
+
+## Constructor
+
+### `__init__(self, mtr)`
+Inicializa la clase con una matriz.
+
+**Parámetros:**
+- `mtr`: Matriz sobre la cual se realizarán los cálculos
+
+## Métodos
+
+### `media_matricial(self)`
+Calcula la media de cada columna de la matriz utilizando multiplicación matricial por un vector de unos.
+
+**Implementación:**
+1. Crea un vector columna de unos del mismo tamaño que el número de filas de la matriz
+2. Realiza la multiplicación de la matriz transpuesta por el vector de unos
+3. Divide cada elemento resultante por el número de filas para obtener las medias
+
+**Retorna:**
+- `list`: Lista con las medias de cada columna de la matriz
+
+**Código:**
+```python
+def media_matricial(self):
+    # Calcula la media de cada columna usando multiplicación por un vector de unos
+    vector_unos = matriz([[1] for _ in range(self.fmtr)])  # vector columna de unos
+    producto = self.transpuesta() * vector_unos            # suma por columna
+    medias = []
+    for suma_col in producto.mtr:
+        medias.append(suma_col[0] / self.fmtr)
+    return medias
+

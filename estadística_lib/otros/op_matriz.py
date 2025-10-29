@@ -1,3 +1,4 @@
+
 class matriz:
   def __init__(self, mtr):
     # si se ingresa un número, se convierte en matriz 1x1
@@ -112,6 +113,39 @@ class matriz:
 
     return det
 
+  def transpuesta(self):
+    nmtr = []
+    for i in range(self.cmtr):
+      fmtr = []
+      for j in range(self.fmtr):
+        fmtr.append(self.mtr[j][i])
+      nmtr.append(fmtr)
+
+    return matriz(nmtr)
+
   def __repr__(self):
     # muestra la matriz en formato legible al imprimirla
     return '\n'.join(str(fila) for fila in self.mtr)
+
+
+
+from base import EstadisticaBase
+
+class EstadisticaMatriz(matriz, EstadisticaBase):
+
+    #Hereda de:
+    # - matriz: para operaciones matriciales
+    # - EstadisticaBase: para cálculos estadísticos
+    def __init__(self, mtr):
+        matriz.__init__(self, mtr)
+
+    def media_matricial(self):
+
+        #Calcula la media de cada columna usando multiplicación por un vector de unos (promedio de cada columna)
+        vector_unos = matriz([[1] for _ in range(self.fmtr)])  # vector columna de unos
+        producto = self.transpuesta() * vector_unos            # suma por columna
+        medias = []
+        for suma_col in producto.mtr:
+            medias.append(suma_col[0] / self.fmtr)
+          
+        return medias
