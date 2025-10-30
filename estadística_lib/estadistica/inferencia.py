@@ -1,8 +1,7 @@
-from base import EstadisticaBase
+# distribuciones
 import numpy as np
-from scipy.special import gamma  # Para factorial/Gamma necesario en chi, t y F
-from scipy import stats
-import math
+from scipy.special import gamma
+from estadistica_base import EstadisticaBase
 
 class DistribucionesMuestrales(EstadisticaBase):
     """
@@ -40,11 +39,6 @@ class DistribucionesMuestrales(EstadisticaBase):
     def t_student(self, t, df):
         """
         Densidad de la distribución t de Student.
-        Args:
-            t (float): valor de la variable aleatoria
-            df (int): grados de libertad
-        Returns:
-            float: densidad de probabilidad en t
         """
         coef = gamma((df + 1) / 2) / (np.sqrt(df * np.pi) * gamma(df / 2))
         expo = (1 + t ** 2 / df) ** (-(df + 1) / 2)
@@ -53,12 +47,6 @@ class DistribucionesMuestrales(EstadisticaBase):
     def f_fisher(self, x, d1, d2):
         """
         Densidad de la distribución F de Fisher.
-        Args:
-            x (float): valor de la variable aleatoria (x >= 0)
-            d1 (int): grados de libertad numerador
-            d2 (int): grados de libertad denominador
-        Returns:
-            float: densidad de probabilidad en x
         """
         if x < 0:
             return 0
@@ -66,6 +54,11 @@ class DistribucionesMuestrales(EstadisticaBase):
                 (gamma(d1 / 2) * gamma(d2 / 2))) * (d1 / d2) ** (d1 / 2)
         expo = x ** (d1 / 2 - 1) * (1 + (d1 / d2) * x) ** (-(d1 + d2) / 2)
         return coef * expo
+
+# intervalos
+import math
+from scipy import stats
+from distribuciones import DistribucionesMuestrales
 
 class IC(DistribucionesMuestrales):
     """
@@ -188,15 +181,13 @@ class IC(DistribucionesMuestrales):
         a = numerador / chi2_critico_sup
         b = numerador / chi2_critico_inf
 
-        return {
-            "a": a,
-            "b": b,
-            "s_cuadrado_muestral": s_cuadrado,
-            "grados_libertad": gl,
-            "chi2_inf_critico": chi2_critico_inf,
-            "chi2_sup_critico": chi2_critico_sup,
-            "nivel_confianza": 1 - alpha
-        }
+        return {"a": a,
+                "b": b,
+                "s_cuadrado_muestral": s_cuadrado,
+                "grados_libertad": gl,
+                "chi2_inf_critico": chi2_critico_inf,
+                "chi2_sup_critico": chi2_critico_sup,
+                "nivel_confianza": 1 - alpha}
 
 # -------------------- DOCUMENTACIÓN --------------------
 """
