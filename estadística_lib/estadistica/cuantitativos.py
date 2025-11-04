@@ -27,11 +27,13 @@ class MedidasCuantitativas(EstadisticaBase):
 		Q2 = self.mediana() # Se reutliza el método de la clase base
 
 		if n % 2 == 0:
-			Q1 = np.median(datos_ordenados[:mitad])
-			Q3 = np.median(datos_ordenados[mitad:])
+			# Si hay cantidad par de datos
+			Q1 = self.mediana(datos_ordenados[:mitad])
+			Q3 = self.mediana(datos_ordenados[mitad:])
 		else:
-			Q1 = np.median(datos_ordenados[:mitad])
-			Q3 = np.median(datos_ordenados[mitad + 1:])
+			# Si hay cantidad impar de datos
+			Q1 = self.mediana(datos_ordenados[:mitad])
+			Q3 = self.mediana(datos_ordenados[mitad + 1:])
 
 		return {"Q1": Q1, "Q2": Q2, "Q3": Q3}
 
