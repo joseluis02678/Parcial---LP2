@@ -120,9 +120,25 @@ pytest estadística_lib/estadistica/tests/
 
 ## Conceptos clave:
 ### 1. Herencia
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
 
+La **herencia** permite que una clase *hija* adquiera los **atributos y métodos** de otra clase *padre*.  
+Este es uno de los pilares fundamentales de la **Programación Orientada a Objetos (POO)**.
 
-### 2. Polimorfismo 
+En este proyecto, la clase `EstadisticaBase` actúa como **superclase**, de la cual heredan las demás clases especializadas.
+
+**Ejemplo principal:**
+
+```python
+class ResumenCualitativo(EstadisticaBase):
+    ...
+class MedidasCuantitativas(EstadisticaBase):
+    ...
+class DistribucionesMuestrales(EstadisticaBase):
+    ...
+
+### 2. Polimorfismo
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
         Se sobreescribe métodos en las clases hijas para que se comporten de manera diferente según la instancia
 
         ejemplo:
