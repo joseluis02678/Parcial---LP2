@@ -100,8 +100,8 @@ estadística_lib/
 ## Instalación y uso
 
 1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/joseluis02678/Parcial---LP2.git
+```bash
+git clone https://github.com/joseluis02678/Parcial---LP2.git
 Entrar a la carpeta del proyecto:
 
 bash
@@ -113,6 +113,7 @@ bash
 Copiar código
 pip install -r requirements.txt
 Ejecutar los ejemplos desde los notebooks:
+ ```
 
 Pruebas
 Las pruebas se encuentran en la carpeta tests y se pueden ejecutar con el siguiente comando:
@@ -136,6 +137,7 @@ class MedidasCuantitativas(EstadisticaBase):
     ...
 class DistribucionesMuestrales(EstadisticaBase):
     ...
+```
 
 ### 2. Polimorfismo
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
