@@ -141,7 +141,6 @@ class DistribucionesMuestrales(EstadisticaBase):
 
 ### 2. Polimorfismo
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
----
 Se sobreescribe métodos en las clases hijas para que se comporten de manera diferente según la instancia.
 
   **Ejemplo:**
@@ -191,4 +190,40 @@ Se sobreescribe métodos en las clases hijas para que se comporten de manera dif
 
   return modas if len(modas) > 1 else modas[0]
   ```
+### 3. Abstracción
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
 
+Se aplica cuando se ocultan los detalles del funcionamiento interno de un método y solo se muestra lo esencial para el usuario.
+El usuario no necesita conocer las fórmulas o estructuras internas, solo usa la función para obtener resultados.
+
+**Ejemplo principal:**
+### MÉTODO "media()" de base.py
+```python
+def media(self):
+    """Calcula la media aritmética sin usar funciones de Python."""
+    n = self.contar_datos()
+    if n == 0:
+        return float('nan') 
+    return self.suma() / n
+```
+El usuario únicamente llama obj.media() y obtiene el promedio de sus datos,
+sin conocer que internamente se llama al método suma() y se recorre cada elemento.
+La lógica matemática está abstraída, mostrando solo el resultado final.
+
+### 4. Encapsulamiento
+<hr style="border: 0; height: 2px; background: #4CAF50; width: 120px; margin-left: 0;">
+
+El encapsulamiento se aplica al proteger los atributos internos de las clases,
+asegurando que solo puedan modificarse o consultarse a través de métodos.
+
+**Ejemplo principal:**
+### ATRIBUTO self.datos en EstadisticaBase
+```python
+class EstadisticaBase:
+    def __init__(self, datos):
+        """Constructor de la clase. Recibe una lista o arreglo de datos numéricos."""
+        self.datos = np.array(datos)
+```
+self.datos está encapsulado: no se modifica directamente desde fuera de la clase.
+Solo los métodos (media(), varianza(), moda(), etc.) pueden acceder y manipularlo,
+manteniendo la integridad de la información estadística.
