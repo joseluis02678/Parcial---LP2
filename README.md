@@ -118,4 +118,56 @@ Pruebas
 Las pruebas se encuentran en la carpeta tests y se pueden ejecutar con el siguiente comando:
 pytest estadística_lib/estadistica/tests/
 
+## Conceptos clave:
+### 1. Herencia
 
+
+### 2. Polimorfismo 
+        Se sobreescribe métodos en las clases hijas para que se comporten de manera diferente según la instancia
+
+        ejemplo:
+
+        #### MÉTODO MODA DE base.py
+            def moda(self):
+        """Calcula la moda sin usar librerías externas."""
+        n = self.contar_datos()
+        if n == 0:
+            return [] # Lista vacía, no hay moda
+        
+        frecuencias = {}
+        for valor in self.datos:
+            frecuencias[valor] = frecuencias.get(valor, 0) + 1
+        
+        max_freq = max(frecuencias.values())
+        
+        # --- LÓGICA FALTANTE AÑADIDA ---
+        # Si la frecuencia máxima es 1 (y hay más de 1 dato), todos son únicos, no hay moda
+        if max_freq == 1 and n > 1:
+             return []
+
+        modas = [k for k, v in frecuencias.items() if v == max_freq]
+        
+        return modas if len(modas) > 1 else modas[0]
+
+        ------------------------------------------------------------------------------------------------------------------
+
+        #### MÉTODO MODA DE cualitativos.py
+            def moda(self):
+        """
+        Redefine la moda para variables cualitativas.
+        """
+        if self.columna is None:
+            raise ValueError("Debe especificar una columna para calcular la moda.")
+
+        valores = self.data[self.columna].astype(str).values
+        frecuencias = {}
+
+        for valor in valores:
+            frecuencias[valor] = frecuencias.get(valor, 0) + 1
+
+        max_freq = max(frecuencias.values())
+        modas = [k for k, v in frecuencias.items() if v == max_freq]
+
+        return modas if len(modas) > 1 else modas[0]
+
+```
