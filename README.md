@@ -41,6 +41,10 @@ El objetivo principal es **aplicar los conceptos de clases, herencia y polimorfi
 
 ## Estructura del proyecto
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/joseluis02678/Parcial---LP2/main/images/Arquitectura%20del%20proyecto.jpg" alt="Arquitectura del proyecto" width="600">
+</p>
+
 <hr style="border: 0; height: 2px; background: #4CAF50; width: 180px; margin-left: 0;">
 
 ```text
